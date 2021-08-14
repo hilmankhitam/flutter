@@ -26,7 +26,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
             ],
           ),
         ),
-        restaurantCard(context),
+        restaurantCard(),
         const SizedBox(height: 10),
         Container(
           margin: EdgeInsets.fromLTRB(defaultMargin, 10, defaultMargin, 10),
@@ -40,7 +40,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
             ],
           ),
         ),
-        restaurantList(context),
+        restaurantList(),
         const SizedBox(
           height: 80,
         ),
@@ -48,83 +48,63 @@ class _RestaurantPageState extends State<RestaurantPage> {
     );
   }
 
-  FutureBuilder<List<Restaurant>> restaurantList(BuildContext context) {
-    return FutureBuilder<List<Restaurant>>(
-        future: RestaurantServices.getRestaurant(context),
-        builder: (_, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return const Center(
-                  child: SpinKitFadingCircle(
-                color: accentColor1,
-                size: 50,
-              ));
-            default:
-              if (snapshot.hasError) {
-                return Center(
-                    child: Text('Some ERROR Occurred',
-                        style: blackTextFont.copyWith(fontSize: 20)));
-              } else {
-                List<Restaurant>? restaurant = snapshot.data!.sublist(5, 10);
-                var sortedRestaurant = restaurant;
-                sortedRestaurant.sort((restaurant1, restaurant2) =>
-                    restaurant2.rating.compareTo(restaurant1.rating));
-                return Column(
-                  children: sortedRestaurant
-                      .map((e) => RestaurantList(e, onTap: () {
-                            Navigator.pushNamed(
-                                context, RestaurantDetailPage.routeName,
-                                arguments: e);
-                          }))
-                      .toList(),
-                );
-              }
-          }
-        });
+  BlocBuilder<RestaurantBloc, RestaurantState> restaurantList() {
+    return BlocBuilder<RestaurantBloc, RestaurantState>(
+        builder: (_, restaurantState) {
+      if (restaurantState is RestaurantLoaded) {
+        if (restaurantState.restaurants.error == false) {
+          List<Restaurant> restaurants =
+              restaurantState.restaurants.restaurants.sublist(10);
+          return Column(
+              children: restaurants
+                  .map((e) => RestaurantList(e, onTap: () {
+                        context
+                            .read<PageBloc>()
+                            .add(GoToRestaurantDetailPage(e, nameUser));
+                      }))
+                  .toList());
+        } else {
+          return const Center(child: Text('Some Error Occured'));
+        }
+      } else {
+        return const SpinKitFadingCircle(color: accentColor1, size: 50);
+      }
+    });
   }
 
-  Widget restaurantCard(BuildContext context) {
+  Widget restaurantCard() {
     return SizedBox(
       height: 220,
-      child: FutureBuilder<List<Restaurant>>(
-          future: RestaurantServices.getRestaurant(context),
-          builder: (_, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return const Center(
-                    child: SpinKitFadingCircle(
-                  color: accentColor1,
-                  size: 50,
-                ));
-              default:
-                if (snapshot.hasError) {
-                  return Center(
-                      child: Text('Some ERROR Occurred',
-                          style: blackTextFont.copyWith(fontSize: 20)));
-                } else {
-                  List<Restaurant>? restaurant = snapshot.data!.sublist(0, 5);
-                  var sortedRestaurant = restaurant;
-                  sortedRestaurant.sort((restaurant1, restaurant2) =>
-                      restaurant2.rating.compareTo(restaurant1.rating));
-                  return ListView.builder(
-                    itemCount: sortedRestaurant.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (_, index) => Container(
+      child: BlocBuilder<RestaurantBloc, RestaurantState>(
+          builder: (_, restaurantState) {
+        if (restaurantState is RestaurantLoaded) {
+          if (restaurantState.restaurants.error == false) {
+            List<Restaurant> restaurants =
+                restaurantState.restaurants.restaurants.sublist(0, 10);
+            return ListView.builder(
+                itemCount: restaurants.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, index) => Container(
                       margin: EdgeInsets.only(
-                          left: (index == 0) ? defaultMargin : 0,
-                          right: (index == restaurant.length - 1)
+                          right: (index == restaurants.length - 1)
                               ? defaultMargin
-                              : 16),
-                      child: RestaurantCard(sortedRestaurant[index], onTap: () {
-                        Navigator.pushNamed(
-                            context, RestaurantDetailPage.routeName,
-                            arguments: sortedRestaurant[index]);
-                      }),
-                    ),
-                  );
-                }
-            }
-          }),
+                              : 16,
+                          left: (index == 0) ? defaultMargin : 0),
+                      child: RestaurantCard(
+                        restaurants[index],
+                        onTap: () {
+                          context.read<PageBloc>().add(
+                              GoToRestaurantDetailPage(restaurants[index], nameUser));
+                        },
+                      ),
+                    ));
+          } else {
+            return const Center(child: Text('Some Error Occured'));
+          }
+        } else {
+          return const SpinKitFadingCircle(color: accentColor1, size: 50);
+        }
+      }),
     );
   }
 

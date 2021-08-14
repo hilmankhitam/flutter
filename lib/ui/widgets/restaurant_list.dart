@@ -33,7 +33,7 @@ class RestaurantList extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     image: DecorationImage(
-                        image: NetworkImage(restaurant.pictureId),
+                        image: NetworkImage(imageBaseURL + 'small/' + restaurant.pictureId),
                         fit: BoxFit.cover),
                   ),
                 ),

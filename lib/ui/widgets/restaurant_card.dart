@@ -78,7 +78,7 @@ class RestaurantCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                      image: NetworkImage(restaurant.pictureId),
+                      image: NetworkImage(imageBaseURL + 'medium/' + restaurant.pictureId),
                       fit: BoxFit.cover),
                 ),
               ),

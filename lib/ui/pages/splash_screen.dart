@@ -57,11 +57,12 @@ class _SplashScreenState extends State<SplashScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(27.5)),
                             onPressed: () {
-                              Navigator.pushReplacementNamed(context, HomePage.routeName);
+                              context.read<PageBloc>().add(GoToHomePage());
                             },
                             child: Text(
                               "Let's Order",
-                              style: blackTextFont.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+                              style: blackTextFont.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
                             )),
                       ),
                     ],

@@ -68,8 +68,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                               ],
                             );
                           } else {
-                            return const Center(
-                                child: Text('Failed to load Details'));
+                            return const Center(child: Text('Failed to load Details'));
                           }
                       }
                     }),

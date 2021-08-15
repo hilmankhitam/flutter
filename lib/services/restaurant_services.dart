@@ -57,7 +57,7 @@ class RestaurantServices {
     if (response.statusCode == 200) {
       return results.map((e) => Restaurant.fromJson(e)).toList();
     } else {
-      throw SearchResultError.fromJson(data);
+      throw ResultError.fromJson(data);
     }
   }
 }

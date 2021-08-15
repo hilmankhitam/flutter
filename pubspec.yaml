@@ -35,7 +35,6 @@ dependencies:
   flutter_spinkit: ^5.0.0
   google_fonts: ^2.1.0
   http: ^0.13.3
-  intl: ^0.17.0
   lottie: ^1.1.0
   provider: ^5.0.0
   rxdart: ^0.27.1

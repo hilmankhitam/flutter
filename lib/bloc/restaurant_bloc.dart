@@ -12,14 +12,20 @@ part 'restaurant_state.dart';
 class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
   RestaurantBloc() : super(RestaurantInitial());
 
-
   @override
   Stream<RestaurantState> mapEventToState(
     RestaurantEvent event,
   ) async* {
-    if (event is FetchRestaurants){
-      RestaurantResult restaurants = await RestaurantServices.getRestaurants();
-      yield RestaurantLoaded(restaurants: restaurants);
+    if (event is FetchRestaurants) {
+      try {
+        RestaurantResult restaurants =
+            await RestaurantServices.getRestaurants();
+        yield RestaurantLoaded(restaurants: restaurants);
+      } catch (error) {
+        yield error is ResultError
+            ? RestaurantError(error.message)
+            : RestaurantError('Something wrong');
+      }
     }
   }
 }

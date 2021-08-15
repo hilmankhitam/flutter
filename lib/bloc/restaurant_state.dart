@@ -15,3 +15,12 @@ class RestaurantLoaded extends RestaurantState {
   @override
   List<Object?> get props => [restaurants];
 }
+
+class RestaurantError extends RestaurantState {
+  final String error;
+
+  RestaurantError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

@@ -1,12 +1,12 @@
 part of 'models.dart';
 
-class SearchResultError {
-  const SearchResultError({required this.message});
+class ResultError {
+  const ResultError({required this.message});
 
   final String message;
 
-  static SearchResultError fromJson(dynamic json) {
-    return SearchResultError(
+  static ResultError fromJson(dynamic json) {
+    return ResultError(
       message: json['error'],
     );
   }

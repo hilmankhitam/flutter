@@ -12,7 +12,6 @@ class _RestaurantPageState extends State<RestaurantPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return ListView(
       children: <Widget>[
         header(context),
@@ -68,6 +67,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
         } else {
           return const Center(child: Text('Some Error Occured'));
         }
+      } else if (restaurantState is RestaurantError) {
+        return Center(child: Text(restaurantState.error));
       } else {
         return const SpinKitFadingCircle(color: accentColor1, size: 50);
       }
@@ -103,6 +104,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
           } else {
             return const Center(child: Text('Some Error Occured'));
           }
+        } else if (restaurantState is RestaurantError) {
+          return Center(child: Text(restaurantState.error));
         } else {
           return const SpinKitFadingCircle(color: accentColor1, size: 50);
         }
@@ -119,7 +122,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
       message = 'Good Afternoon,';
     } else if (sekarang.hour < 20) {
       message = 'Good Evening,';
-    }else{
+    } else {
       message = 'Good Night,';
     }
     return Column(

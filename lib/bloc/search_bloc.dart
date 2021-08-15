@@ -41,7 +41,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           final results = await searchRepository.search(search);
           yield SearchStateSuccess(results);
         } catch (error) {
-          yield error is SearchResultError
+          yield error is ResultError
               ? SearchStateError(error.message)
               : const SearchStateError('Something went Wrong');
         }

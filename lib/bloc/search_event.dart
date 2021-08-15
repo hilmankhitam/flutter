@@ -12,7 +12,4 @@ class TextChanged extends SearchEvent{
 
   @override
   List<Object> get props => [];
-
-  @override
-  String toString() => 'Text Changed { text: $text }';
 }

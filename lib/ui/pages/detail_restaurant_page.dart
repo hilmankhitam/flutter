@@ -82,8 +82,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
     );
   }
 
-  Widget bottomButton(
-      BuildContext context, String id, String name) {
+  Widget bottomButton(BuildContext context, String id, String name) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -107,13 +106,14 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                   color: accentColor3,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () {
-                    showDialog(
+                  onPressed: () async {
+                    await showDialog(
                         context: context,
                         builder: (context) => ShowDialog(
                               id,
                               name,
                             ));
+                    setState(() {});
                   },
                   child: Text(
                     "Add Review",

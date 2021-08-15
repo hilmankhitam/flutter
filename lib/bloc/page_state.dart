@@ -30,6 +30,8 @@ class OnRestaurantDetailPage extends PageState {
 }
 
 class OnSearchPage extends PageState {
+  final String userName;
+  const OnSearchPage(this.userName);
   @override
   List<Object> get props => [];
 }

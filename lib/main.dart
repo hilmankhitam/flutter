@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => SearchBloc(searchRepository: SearchRepository()),
         ),
-        BlocProvider(create: (_) => RestaurantBloc()..add(FetchRestaurants()))
+        BlocProvider(create: (_) => RestaurantBloc()..add(FetchRestaurants())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

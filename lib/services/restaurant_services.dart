@@ -63,20 +63,10 @@ class RestaurantServices {
 }
 
 class SearchRepository {
-
   RestaurantServices restaurantServices = RestaurantServices();
 
-  Future<List<Restaurant>> search(String term) => restaurantServices.search(term);
+  Future<List<Restaurant>> search(String search) =>
+      restaurantServices.search(search);
 }
 
-class SearchResultError {
-  const SearchResultError({required this.message});
 
-  final String message;
-
-  static SearchResultError fromJson(dynamic json) {
-    return SearchResultError(
-      message: json['error'] as String,
-    );
-  }
-}

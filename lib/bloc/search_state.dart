@@ -18,10 +18,6 @@ class SearchStateSuccess extends SearchState {
 
   @override
   List<Object> get props => [items];
-
-  @override
-  String toString() =>
-      'SearchStateSuccess { restaurant: ${items.length} }';
 }
 
 class SearchStateError extends SearchState {

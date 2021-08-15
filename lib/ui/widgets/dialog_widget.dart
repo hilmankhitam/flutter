@@ -3,7 +3,8 @@ part of 'widgets.dart';
 class ShowDialog extends StatefulWidget {
   final String id;
   final String name;
-  const ShowDialog(this.id, this.name, {Key? key}) : super(key: key);
+  const ShowDialog(this.id, this.name, {Key? key})
+      : super(key: key);
 
   @override
   State<ShowDialog> createState() => _ShowDialogState();
@@ -51,9 +52,11 @@ class _ShowDialogState extends State<ShowDialog> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 onPressed: () {
-                  RestaurantServices.addReview(
-                      widget.id, widget.name, reviewController.text);
-                  Navigator.pop(context);
+                  if (reviewController.text != '') {
+                    RestaurantServices.addReview(
+                        widget.id, widget.name, reviewController.text);
+                    Navigator.pop(context);
+                  }
                 },
                 child: Text(
                   "Add Review",

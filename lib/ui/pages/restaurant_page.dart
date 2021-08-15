@@ -8,9 +8,11 @@ class RestaurantPage extends StatefulWidget {
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
-  String nameUser = 'Hilman Khitam';
+  String nameUser = 'Gol D Roger';
+
   @override
   Widget build(BuildContext context) {
+    
     return ListView(
       children: <Widget>[
         header(context),
@@ -109,6 +111,17 @@ class _RestaurantPageState extends State<RestaurantPage> {
   }
 
   Widget header(BuildContext context) {
+    DateTime sekarang = DateTime.now();
+    String message;
+    if (sekarang.hour < 12) {
+      message = 'Good Moring,';
+    } else if (sekarang.hour < 15) {
+      message = 'Good Afternoon,';
+    } else if (sekarang.hour < 20) {
+      message = 'Good Evening,';
+    }else{
+      message = 'Good Night,';
+    }
     return Column(
       children: [
         Container(
@@ -124,7 +137,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
             const SizedBox(width: 10),
             GestureDetector(
                 onTap: () {
-                  context.read<PageBloc>().add(GoToSearchPage());
+                  context.read<PageBloc>().add(GoToSearchPage(nameUser));
                 },
                 child: const Icon(Icons.search, color: mainColor)),
           ]),
@@ -161,7 +174,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                           50 -
                           18 -
                           2 * 14,
-                      child: Text('Good Morning,',
+                      child: Text(message,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: whiteTextFont.copyWith(fontSize: 18)),

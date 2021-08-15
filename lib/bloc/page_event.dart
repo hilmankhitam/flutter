@@ -25,6 +25,8 @@ class GoToRestaurantDetailPage extends PageEvent {
 }
 
 class GoToSearchPage extends PageEvent {
+  final String userName;
+  const GoToSearchPage(this.userName);
   @override
   List<Object> get props => [];
 }

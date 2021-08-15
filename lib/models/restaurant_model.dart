@@ -1,5 +1,17 @@
 part of 'models.dart';
 
+class SearchResultError {
+  const SearchResultError({required this.message});
+
+  final String message;
+
+  static SearchResultError fromJson(dynamic json) {
+    return SearchResultError(
+      message: json['error'],
+    );
+  }
+}
+
 class RestaurantResult {
   final bool error;
   final String message;

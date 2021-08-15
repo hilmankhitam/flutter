@@ -11,7 +11,7 @@ class Wrapper extends StatelessWidget {
           : (pageState is OnRestaurantDetailPage)
               ? RestaurantDetailPage(pageState.restaurant, pageState.userName)
               : (pageState is OnSearchPage)
-                  ? const SearchPage()
+                  ? SearchPage(pageState.userName)
                   : const SplashScreen(),
     );
   }

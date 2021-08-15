@@ -20,6 +20,8 @@ class PageBloc extends Bloc<PageEvent, PageState> {
       yield OnHomePage();
     } else if (event is GoToRestaurantDetailPage) {
       yield OnRestaurantDetailPage(event.restaurant, event.userName);
+    } else if (event is GoToSearchPage){
+      yield OnSearchPage();
     }
   }
 }

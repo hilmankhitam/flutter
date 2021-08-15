@@ -28,3 +28,8 @@ class OnRestaurantDetailPage extends PageState {
   @override
   List<Object> get props => [restaurant];
 }
+
+class OnSearchPage extends PageState {
+  @override
+  List<Object> get props => [];
+}

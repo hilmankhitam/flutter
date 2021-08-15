@@ -5,13 +5,14 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return BlocBuilder<PageBloc, PageState>(
-      builder: (_, pageState) => (pageState is OnSplashPage)
-          ? const SplashScreen()
+      builder: (_, pageState) => (pageState is OnHomePage)
+          ? const HomePage()
           : (pageState is OnRestaurantDetailPage)
               ? RestaurantDetailPage(pageState.restaurant, pageState.userName)
-              : const HomePage(),
+              : (pageState is OnSearchPage)
+                  ? const SearchPage()
+                  : const SplashScreen(),
     );
   }
 }

@@ -93,8 +93,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
                       child: RestaurantCard(
                         restaurants[index],
                         onTap: () {
-                          context.read<PageBloc>().add(
-                              GoToRestaurantDetailPage(restaurants[index], nameUser));
+                          context.read<PageBloc>().add(GoToRestaurantDetailPage(
+                              restaurants[index], nameUser));
                         },
                       ),
                     ));
@@ -109,60 +109,82 @@ class _RestaurantPageState extends State<RestaurantPage> {
   }
 
   Widget header(BuildContext context) {
-    return Container(
-      height: 100,
-      margin: EdgeInsets.fromLTRB(defaultMargin, 10, defaultMargin, 0),
-      decoration: BoxDecoration(
-        color: accentColor1,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 14),
-        child: Row(
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage('assets/profile.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(width: 18),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+      children: [
+        Container(
+          height: 50,
+          margin: EdgeInsets.fromLTRB(defaultMargin, 10, defaultMargin, 0),
+          decoration: BoxDecoration(
+            color: accentColor1,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            Text('What would you like to eat today?', style: whiteTextFont),
+            const SizedBox(width: 10),
+            GestureDetector(
+                onTap: () {
+                  context.read<PageBloc>().add(GoToSearchPage());
+                },
+                child: const Icon(Icons.search, color: mainColor)),
+          ]),
+        ),
+        Container(
+          height: 100,
+          margin: EdgeInsets.fromLTRB(defaultMargin, 10, defaultMargin, 0),
+          decoration: BoxDecoration(
+            color: accentColor1,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 14),
+            child: Row(
               children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width -
-                      2 * defaultMargin -
-                      50 -
-                      18 -
-                      2 * 14,
-                  child: Text('Hello, $nameUser',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: whiteTextFont.copyWith(fontSize: 18)),
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage('assets/profile.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width -
-                      2 * defaultMargin -
-                      50 -
-                      18 -
-                      2 * 14,
-                  child: Text('What would you like to eat today?',
-                      maxLines: 2,
-                      overflow: TextOverflow.clip,
-                      style: greyTextFont.copyWith(
-                          fontSize: 14, fontWeight: FontWeight.w400)),
+                const SizedBox(width: 18),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width -
+                          2 * defaultMargin -
+                          50 -
+                          18 -
+                          2 * 14,
+                      child: Text('Good Morning,',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: whiteTextFont.copyWith(fontSize: 18)),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width -
+                          2 * defaultMargin -
+                          50 -
+                          18 -
+                          2 * 14,
+                      child: Text(nameUser,
+                          maxLines: 2,
+                          overflow: TextOverflow.clip,
+                          style: greyTextFont.copyWith(
+                              fontSize: 14, fontWeight: FontWeight.w400)),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

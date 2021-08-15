@@ -23,3 +23,8 @@ class GoToRestaurantDetailPage extends PageEvent {
   @override
   List<Object> get props => [restaurant];
 }
+
+class GoToSearchPage extends PageEvent {
+  @override
+  List<Object> get props => [];
+}

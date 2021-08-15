@@ -17,3 +17,4 @@ part 'wrapper.dart';
 part 'detail_restaurant_page.dart';
 part 'restaurant_page.dart';
 part 'setting_page.dart';
+part 'search_page.dart';

@@ -1,8 +1,10 @@
 part of 'services.dart';
 
 class RestaurantServices {
-  static Future<RestaurantResult> getRestaurants() async {
+  static Future<RestaurantResult> getRestaurants({http.Client? client}) async {
     String url = baseURL + "list";
+
+    client ??= http.Client();
 
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
@@ -13,8 +15,11 @@ class RestaurantServices {
     }
   }
 
-  static Future<RestaurantDetailResult> getDetails(String restaurantID) async {
+  static Future<RestaurantDetailResult> getDetails(String restaurantID,
+      {http.Client? client}) async {
     String url = baseURL + "detail/$restaurantID";
+
+    client ??= http.Client();
 
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
@@ -25,16 +30,53 @@ class RestaurantServices {
     }
   }
 
-  static Future<void> addReview(String id, String name, String review) async {
+  static Future<void> addReview(String id, String name, String review,
+      {http.Client? client}) async {
     String url = baseURL + "review";
+
+    client ??= http.Client();
+
     var headers = {'Content-Type': 'application/json', 'X-Auth-Token': '12345'};
     final body = {'id': id, 'name': name, 'review': review};
     final response = await http.post(Uri.parse(url),
         headers: headers, body: jsonEncode(body));
     if (response.statusCode == 200) {
-      
     } else {
       throw Exception('Failed to add Review');
     }
+  }
+
+  Future<List<Restaurant>> search(String search, {http.Client? client}) async {
+    String url = baseURL + "search?q=$search";
+
+    client ??= http.Client();
+
+    final response = await http.get(Uri.parse(url));
+    final data = json.decode(response.body);
+    List results = data['restaurants'];
+    if (response.statusCode == 200) {
+      return results.map((e) => Restaurant.fromJson(e)).toList();
+    } else {
+      throw SearchResultError.fromJson(data);
+    }
+  }
+}
+
+class SearchRepository {
+
+  RestaurantServices restaurantServices = RestaurantServices();
+
+  Future<List<Restaurant>> search(String term) => restaurantServices.search(term);
+}
+
+class SearchResultError {
+  const SearchResultError({required this.message});
+
+  final String message;
+
+  static SearchResultError fromJson(dynamic json) {
+    return SearchResultError(
+      message: json['error'] as String,
+    );
   }
 }

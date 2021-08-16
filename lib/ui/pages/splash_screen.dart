@@ -51,11 +51,14 @@ class _SplashScreenState extends State<SplashScreen> {
                       SizedBox(
                         height: 55,
                         width: 290,
-                        child: RaisedButton(
-                            elevation: 0,
-                            color: accentColor3,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(27.5)),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(27.5),
+                              ),
+                              elevation: 0,
+                              primary: accentColor3,
+                            ),
                             onPressed: () {
                               context.read<PageBloc>().add(GoToHomePage());
                             },

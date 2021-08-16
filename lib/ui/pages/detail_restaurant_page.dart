@@ -68,7 +68,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                               ],
                             );
                           } else {
-                            return const Center(child: Text('Failed to load Details'));
+                            return const Center(
+                                child: Text('Failed to load Details'));
                           }
                       }
                     }),
@@ -100,11 +101,14 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
             SizedBox(
               height: 50,
               width: MediaQuery.of(context).size.width - 20,
-              child: RaisedButton(
-                  elevation: 0,
-                  color: accentColor3,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 0,
+                    primary: accentColor3,
+                  ),
                   onPressed: () async {
                     await showDialog(
                         context: context,

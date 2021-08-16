@@ -60,24 +60,21 @@ class _HomePageState extends State<HomePage> {
           selectedItemColor: accentColor3,
           unselectedItemColor: mainColor,
           currentIndex: bottomNavBarIndex,
+          selectedLabelStyle: whiteTextFont.copyWith(fontSize: 16),
           onTap: (index) {
             setState(() {
               bottomNavBarIndex = index;
               pageController.jumpToPage(index);
             });
           },
-          items: [
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              title: Text("Restaurants",
-                  style: GoogleFonts.poppins(
-                      fontSize: 13, fontWeight: FontWeight.w600)),
-              icon: const Icon(Icons.home_filled),
+              label: 'Restaurants',
+              icon: Icon(Icons.home_filled),
             ),
             BottomNavigationBarItem(
-                title: Text("Settings",
-                    style: GoogleFonts.poppins(
-                        fontSize: 13, fontWeight: FontWeight.w600)),
-                icon: const Icon(
+                label: 'Settings',
+                icon: Icon(
                   Icons.settings_accessibility,
                 )),
           ],

@@ -32,15 +32,20 @@ class SettingPage extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: blackTextFont.copyWith(fontSize: 18)),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             SizedBox(
               height: 55,
               width: 200,
-              child: RaisedButton(
-                  elevation: 0,
-                  color: accentColor3,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(27.5)),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(27.5),
+                    ),
+                    elevation: 0,
+                    primary: accentColor3,
+                  ),
                   onPressed: () {
                     defaultTargetPlatform != TargetPlatform.iOS
                         ? showDialog(
@@ -48,10 +53,10 @@ class SettingPage extends StatelessWidget {
                             builder: (context) {
                               return AlertDialog(
                                 title: const Text('Coming Soon!'),
-                                content:
-                                    const Text('This feature will be coming soon!'),
+                                content: const Text(
+                                    'This feature will be coming soon!'),
                                 actions: [
-                                  FlatButton(
+                                  TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
@@ -67,11 +72,11 @@ class SettingPage extends StatelessWidget {
                             builder: (context) {
                               return CupertinoAlertDialog(
                                 title: const Text('Coming Soon!'),
-                                content:
-                                    const Text('This feature will be coming soon!'),
+                                content: const Text(
+                                    'This feature will be coming soon!'),
                                 actions: [
                                   CupertinoDialogAction(
-                                    child:const  Text('Ok'),
+                                    child: const Text('Ok'),
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },

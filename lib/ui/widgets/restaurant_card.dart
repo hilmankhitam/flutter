@@ -70,17 +70,14 @@ class RestaurantCard extends StatelessWidget {
           Positioned(
             left: 10,
             top: 10,
-            child: Hero(
-              tag: restaurant.pictureId,
-              child: Container(
-                height: 140,
-                width: 210,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  image: DecorationImage(
-                      image: NetworkImage(imageBaseURL + 'medium/' + restaurant.pictureId),
-                      fit: BoxFit.cover),
-                ),
+            child: Container(
+              height: 140,
+              width: 210,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                image: DecorationImage(
+                    image: NetworkImage(imageBaseURL + 'medium/' + restaurant.pictureId),
+                    fit: BoxFit.cover),
               ),
             ),
           ),

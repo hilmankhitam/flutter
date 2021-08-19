@@ -11,7 +11,7 @@ class RestaurantServices {
       var data = json.decode(response.body);
       return RestaurantResult.fromJson(data);
     } else {
-      throw Exception('Failed to load top headlines');
+      throw Exception('Failed to load restaurants');
     }
   }
 
@@ -36,7 +36,7 @@ class RestaurantServices {
 
     client ??= http.Client();
 
-    var headers = {'Content-Type': 'application/json', 'X-Auth-Token': '12345'};
+    var headers = {'Content-Type': 'application/json', 'X-Auth-Token': apiKey};
     final body = {'id': id, 'name': name, 'review': review};
     final response = await http.post(Uri.parse(url),
         headers: headers, body: jsonEncode(body));

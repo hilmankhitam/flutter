@@ -20,7 +20,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Top Restaurant',
+              Text('Top Restaurants',
                   style: blackTextFont.copyWith(
                       fontSize: 18, fontWeight: FontWeight.w600)),
               Text('See More', style: yellowTextFont),
@@ -54,8 +54,10 @@ class _RestaurantPageState extends State<RestaurantPage> {
         builder: (_, restaurantState) {
       if (restaurantState is RestaurantLoaded) {
         if (restaurantState.restaurants.error == false) {
-          List<Restaurant> restaurants =
-              restaurantState.restaurants.restaurants.sublist(10);
+          var sortedRestaurants = restaurantState.restaurants.restaurants;
+            sortedRestaurants.sort((restaurant1, restaurant2) =>
+                restaurant2.rating.compareTo(restaurant1.rating));
+          List<Restaurant> restaurants = sortedRestaurants.sublist(10);
           return Column(
               children: restaurants
                   .map((e) => RestaurantList(e, onTap: () {
@@ -82,8 +84,10 @@ class _RestaurantPageState extends State<RestaurantPage> {
           builder: (_, restaurantState) {
         if (restaurantState is RestaurantLoaded) {
           if (restaurantState.restaurants.error == false) {
-            List<Restaurant> restaurants =
-                restaurantState.restaurants.restaurants.sublist(0, 10);
+            var sortedRestaurants = restaurantState.restaurants.restaurants;
+            sortedRestaurants.sort((restaurant1, restaurant2) =>
+                restaurant2.rating.compareTo(restaurant1.rating));
+            List<Restaurant> restaurants = sortedRestaurants.sublist(0, 10);
             return ListView.builder(
                 itemCount: restaurants.length,
                 scrollDirection: Axis.horizontal,

@@ -25,17 +25,14 @@ class RestaurantList extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Hero(
-                tag: restaurant.pictureId,
-                child: Container(
-                  height: 80,
-                  width: 105,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    image: DecorationImage(
-                        image: NetworkImage(imageBaseURL + 'small/' + restaurant.pictureId),
-                        fit: BoxFit.cover),
-                  ),
+              Container(
+                height: 80,
+                width: 105,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                      image: NetworkImage(imageBaseURL + 'small/' + restaurant.pictureId),
+                      fit: BoxFit.cover),
                 ),
               ),
               const SizedBox(

@@ -5,7 +5,7 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String nameUser = 'Hilman Khitam';
+    String nameUser = 'Gol D Roger';
     return ListView(children: [
       SizedBox(
         height: MediaQuery.of(context).size.height,

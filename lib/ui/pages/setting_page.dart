@@ -87,17 +87,24 @@ class _SettingPageState extends State<SettingPage> {
             const SizedBox(
               height: 10,
             ),
-            Material(
-              child: ListTile(
-                  title: const Text('Scheduling Notification'),
-                  trailing: Switch(
-                      value: _isScheduled,
-                      onChanged: (value) async {
-                        scheduledRestaurant(value);
-                        setState(() {
-                          _isScheduled = value;
-                        });
-                      })),
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 2 * defaultMargin,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Scheduling Notification', style: blackTextFont),
+                  CupertinoSwitch(
+                    activeColor: accentColor1,
+                    value: _isScheduled,
+                    onChanged: (value) async {
+                      scheduledRestaurant(value);
+                      setState(() {
+                        _isScheduled = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
             const SizedBox(
               height: 10,

@@ -9,6 +9,23 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
+  void initState() {
+    super.initState();
+    NotificationHelper.init(initScheduled: true);
+    listenNotifications();
+  }
+
+  void listenNotifications() {
+    NotificationHelper.onNotifications.stream.listen(onClickNotifications);
+  }
+
+  void onClickNotifications(String? payload) {
+    context
+        .read<PageBloc>()
+        .add(GoToRestaurantDetailPage(payload!, 'Gol D Roger'));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(

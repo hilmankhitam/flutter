@@ -14,9 +14,15 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   late Future _future;
 
   @override
+  void dispose() {
+    NotificationHelper.onNotifications.close();
+    super.dispose();
+  }
+
+  @override
   initState() {
-    _future = RestaurantServices.getDetails(widget.id);
     super.initState();
+    _future = RestaurantServices.getDetails(widget.id);
   }
 
   @override

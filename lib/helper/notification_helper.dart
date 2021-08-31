@@ -25,13 +25,9 @@ class NotificationHelper {
       iOS: iOS,
     );
 
-    
-
     final details = await _notifications.getNotificationAppLaunchDetails();
     if (details != null && details.didNotificationLaunchApp) {
-      if(1 + 2 == 3) {
-        onNotifications.add(details.payload);
-      }
+      onNotifications.add(details.payload);
     }
 
     await _notifications.initialize(settings,
@@ -66,7 +62,7 @@ class NotificationHelper {
       id,
       random.name,
       random.description,
-      _scheduleDaily(const Time(22, 26, 00)),
+      _scheduleDaily(const Time(11, 00, 00)),
       await _notificationDetails(),
       payload: random.id,
       androidAllowWhileIdle: true,
@@ -81,11 +77,10 @@ class NotificationHelper {
     final scheduleDate = tz.TZDateTime(tz.local, now.year, now.month, now.day,
         time.hour, time.minute, time.second);
 
-    return scheduleDate.isBefore(now)
+    return now.isAfter(scheduleDate)
         ? scheduleDate.add(const Duration(days: 1))
         : scheduleDate;
   }
 
   static void cancel() => _notifications.cancel(0);
 }
-

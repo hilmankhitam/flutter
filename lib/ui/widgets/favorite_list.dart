@@ -15,7 +15,8 @@ class FavoriteList extends StatelessWidget {
       future: RestaurantServices.getDetails(id),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          RestaurantDetailResult restaurantDetailResult = snapshot.data as RestaurantDetailResult;
+          RestaurantDetailResult restaurantDetailResult =
+              snapshot.data as RestaurantDetailResult;
           return Container(
             margin: const EdgeInsets.only(bottom: 10),
             child: Container(
@@ -40,25 +41,28 @@ class FavoriteList extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                            image: NetworkImage(
-                                imageBaseURL + 'small/' + restaurantDetailResult.restaurantDetail.pictureId),
+                            image: NetworkImage(imageBaseURL +
+                                'small/' +
+                                restaurantDetailResult
+                                    .restaurantDetail.pictureId),
                             fit: BoxFit.cover),
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
                   Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(restaurantDetailResult.restaurantDetail.name,
-                            style: whiteTextFont.copyWith(fontSize: 16)),
-                        GestureDetector(
-                          onTap: () {
-                            onTapDelete();
-                          },
-                          child: const Icon(Icons.delete, color: mainColor),
-                        )
-                      ]),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(restaurantDetailResult.restaurantDetail.name,
+                          style: whiteTextFont.copyWith(fontSize: 16)),
+                      GestureDetector(
+                        onTap: () {
+                          onTapDelete();
+                        },
+                        child: const Icon(Icons.delete, color: mainColor),
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),

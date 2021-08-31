@@ -52,9 +52,6 @@ class NotificationHelper {
 
   static Future showScheduleNotification({
     int id = 0,
-    String? title,
-    String? body,
-    String? payload,
   }) async {
     final data = await RestaurantServices.getRestaurants(http.Client());
     var random = randomRestaurant(data);

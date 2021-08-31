@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:submission_fundamental_1/models/models.dart';
-import 'package:submission_fundamental_1/services/services.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:submission_fundamental_1/repository/repository.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';

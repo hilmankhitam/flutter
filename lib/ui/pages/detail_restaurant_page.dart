@@ -1,10 +1,9 @@
 part of 'pages.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
-  static const routeName = '/detail_restaurant_page';
-  final Restaurant restaurant;
+  final String id;
   final String userName;
-  const RestaurantDetailPage(this.restaurant, this.userName, {Key? key})
+  const RestaurantDetailPage(this.id, this.userName, {Key? key})
       : super(key: key);
 
   @override
@@ -12,8 +11,17 @@ class RestaurantDetailPage extends StatefulWidget {
 }
 
 class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
+  late Future _future;
+
+  @override
+  initState() {
+    _future = RestaurantServices.getDetails(widget.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Restaurant restaurant;
     return WillPopScope(
       onWillPop: () async {
         context.read<PageBloc>().add(GoToHomePage());
@@ -29,7 +37,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
             ListView(
               children: [
                 FutureBuilder(
-                    future: RestaurantServices.getDetails(widget.restaurant.id),
+                    future: _future,
                     builder: (_, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.none:
@@ -43,28 +51,15 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                           if (snapshot.hasData) {
                             RestaurantDetailResult restaurantDetailResult =
                                 snapshot.data as RestaurantDetailResult;
-
+                            restaurant =
+                                restaurantDetailResult.restaurantDetail;
                             return Column(
                               children: [
-                                header(context),
+                                header(context, restaurant),
                                 picture(restaurantDetailResult
                                     .restaurantDetail.pictureId),
-                                content(
-                                    context,
-                                    restaurantDetailResult
-                                        .restaurantDetail.name,
-                                    restaurantDetailResult
-                                        .restaurantDetail.city,
-                                    restaurantDetailResult
-                                        .restaurantDetail.categories,
-                                    restaurantDetailResult
-                                        .restaurantDetail.rating,
-                                    restaurantDetailResult
-                                        .restaurantDetail.description,
-                                    restaurantDetailResult
-                                        .restaurantDetail.menus,
-                                    restaurantDetailResult
-                                        .restaurantDetail.customerReview),
+                                content(context,
+                                    restaurantDetailResult.restaurantDetail),
                               ],
                             );
                           } else {
@@ -75,7 +70,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                     }),
               ],
             ),
-            bottomButton(context, widget.restaurant.id, widget.userName),
+            bottomButton(context, widget.id, widget.userName),
           ],
         ),
       ),
@@ -109,8 +104,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                     elevation: 0,
                     primary: accentColor3,
                   ),
-                  onPressed: () async {
-                    await showDialog(
+                  onPressed: () {
+                    showDialog(
                         context: context,
                         builder: (context) => ShowDialog(
                               id,
@@ -143,7 +138,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
     );
   }
 
-  Container header(BuildContext context) {
+  Container header(BuildContext context, Restaurant restaurant) {
     return Container(
       margin:
           EdgeInsets.fromLTRB(defaultMargin, 20, defaultMargin, defaultMargin),
@@ -166,31 +161,67 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
           Text('Details',
               style: blackTextFont.copyWith(
                   fontSize: 18, fontWeight: FontWeight.bold)),
-          Container(
+          favoriteButton(restaurant),
+        ],
+      ),
+    );
+  }
+
+  BlocBuilder<FavoriteBloc, FavoriteState> favoriteButton(
+      Restaurant restaurant) {
+    return BlocBuilder<FavoriteBloc, FavoriteState>(
+      builder: (_, state) {
+        if (state is FavoriteLoaded) {
+          List<String> id = state.id;
+          return Container(
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: Colors.black.withOpacity(0.04),
             ),
             child: GestureDetector(
-              onTap: () {},
-              child: const Icon(Icons.settings, color: accentColor1),
+              onTap: () {
+                setState(() {
+                  if (id.contains(restaurant.id)) {
+                    context
+                        .read<FavoriteBloc>()
+                        .add(RemoveFavoriteRestaurant(restaurant.id));
+                    Flushbar(
+                            duration: const Duration(milliseconds: 1500),
+                            flushbarPosition: FlushbarPosition.TOP,
+                            backgroundColor: accentColor1,
+                            message:
+                                "${restaurant.name} has been removed from Favorites")
+                        .show(context);
+                  } else {
+                    context
+                        .read<FavoriteBloc>()
+                        .add(AddFavoriteRestaurant(restaurant.id));
+                    Flushbar(
+                            duration: const Duration(milliseconds: 1500),
+                            flushbarPosition: FlushbarPosition.TOP,
+                            backgroundColor: accentColor1,
+                            message:
+                                "${restaurant.name} has been added to Favorites")
+                        .show(context);
+                  }
+                });
+              },
+              child: Icon(
+                  id.contains(restaurant.id)
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  color: accentColor1),
             ),
-          ),
-        ],
-      ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 
-  Widget content(
-      BuildContext context,
-      String name,
-      String city,
-      List<Categories> categories,
-      double rating,
-      String description,
-      Menu menus,
-      List<CustomerReview> reviewer) {
+  Widget content(BuildContext context, RestaurantDetail restaurantDetail) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 15),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -200,7 +231,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name,
+                Text(restaurantDetail.name,
                     style: blackTextFont.copyWith(
                         fontSize: 22, fontWeight: FontWeight.bold)),
                 Row(
@@ -211,14 +242,14 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                       size: 20,
                     ),
                     const SizedBox(width: 5),
-                    Text(city, style: greyTextFont)
+                    Text(restaurantDetail.city, style: greyTextFont)
                   ],
                 ),
                 const SizedBox(
                   height: 5,
                 ),
                 Row(
-                  children: categories
+                  children: restaurantDetail.categories
                       .map((e) => Container(
                           margin: const EdgeInsets.only(right: 5),
                           padding: const EdgeInsets.all(5),
@@ -238,75 +269,100 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                   size: 20,
                 ),
                 const SizedBox(width: 2),
-                Text(rating.toString(), style: greyTextFont)
+                Text(restaurantDetail.rating.toString(), style: greyTextFont)
               ],
             ),
           ],
         ),
         const SizedBox(height: 8),
-        Text(description, textAlign: TextAlign.justify, style: greyTextFont),
+        Text(restaurantDetail.description,
+            textAlign: TextAlign.justify, style: greyTextFont),
         const SizedBox(height: 8),
         Text('Foods', style: blackTextFont.copyWith(fontSize: 18)),
-        listFoods(menus),
+        cardFoods(restaurantDetail.menus),
         const SizedBox(height: 8),
         Text('Drinks', style: blackTextFont.copyWith(fontSize: 18)),
-        listDrinks(menus),
+        cardDrinks(restaurantDetail.menus),
         const SizedBox(height: 8),
         Text('Reviewer', style: blackTextFont.copyWith(fontSize: 18)),
-        listReviewer(reviewer, context),
+        listReviewer(restaurantDetail),
         const SizedBox(height: 70),
       ]),
     );
   }
 
-  Container listReviewer(List<CustomerReview> reviewer, BuildContext context) {
+  Container listReviewer(Restaurant restaurant) {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: accentColor1),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: reviewer.map((review) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const CircleAvatar(
-                    radius: 15,
-                    backgroundImage: AssetImage('assets/profile.png'),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(review.name,
-                          style: whiteTextFont.copyWith(fontSize: 16)),
-                      const SizedBox(height: 5),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width -
-                              2 * defaultMargin -
-                              52,
-                          child: Text(review.review,
-                              textAlign: TextAlign.justify,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: whiteTextFont.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.w300))),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
-        ),
+        child: FutureBuilder(
+            future: RestaurantServices.getDetails(restaurant.id),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.active:
+                case ConnectionState.waiting:
+                  return const Center(
+                      child:
+                          SpinKitFadingCircle(size: 50, color: accentColor1));
+                default:
+                  if (snapshot.hasData) {
+                    RestaurantDetailResult restaurantDetailResult =
+                        snapshot.data as RestaurantDetailResult;
+                    return Column(
+                      children: restaurantDetailResult
+                          .restaurantDetail.customerReview
+                          .map((review) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const CircleAvatar(
+                                radius: 15,
+                                backgroundImage:
+                                    AssetImage('assets/profile.png'),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(review.name,
+                                      style:
+                                          whiteTextFont.copyWith(fontSize: 16)),
+                                  const SizedBox(height: 5),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          2 * defaultMargin -
+                                          52,
+                                      child: Text(review.review,
+                                          textAlign: TextAlign.justify,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: whiteTextFont.copyWith(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w300))),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return const Center(child: Text('Failed to load Details'));
+                  }
+              }
+            }),
       ),
     );
   }
 
-  SingleChildScrollView listDrinks(Menu menus) {
+  SingleChildScrollView cardDrinks(Menu menus) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -343,7 +399,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
     );
   }
 
-  SingleChildScrollView listFoods(Menu menus) {
+  SingleChildScrollView cardFoods(Menu menus) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(

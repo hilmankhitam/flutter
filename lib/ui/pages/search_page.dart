@@ -70,7 +70,7 @@ class _SearchPageState extends State<SearchPage> {
                   children: searchState.items
                       .map((e) => RestaurantList(e, onTap: () {
                             context.read<PageBloc>().add(
-                                GoToRestaurantDetailPage(e, widget.nameUser));
+                                GoToRestaurantDetailPage(e.id, widget.nameUser));
                           }))
                       .toList());
         }

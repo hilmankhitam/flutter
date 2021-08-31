@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:submission_fundamental_1/models/models.dart';
 import 'package:submission_fundamental_1/services/services.dart';
+import 'package:http/http.dart' as http;
 
 part 'restaurant_event.dart';
 part 'restaurant_state.dart';
@@ -19,7 +20,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     if (event is FetchRestaurants) {
       try {
         RestaurantResult restaurants =
-            await RestaurantServices.getRestaurants();
+            await RestaurantServices.getRestaurants(http.Client());
         yield RestaurantLoaded(restaurants: restaurants);
       } catch (error) {
         yield error is ResultError

@@ -31,6 +31,13 @@ class RestaurantResult {
           count: json['count'],
           restaurants: List<Restaurant>.from(
               json['restaurants'].map((e) => Restaurant.fromJson(e))));
+
+  Map<String, dynamic> toJson() => {
+        "error": error,
+        "message": message,
+        "count": count,
+        "restaurants": List<dynamic>.from(restaurants.map((x) => x.toJson())),
+      };
 }
 
 class Restaurant extends Equatable {
@@ -57,6 +64,15 @@ class Restaurant extends Equatable {
         city: json['city'],
         rating: (json['rating'] as num).toDouble(),
       );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "pictureId": pictureId,
+        "city": city,
+        "rating": rating,
+      };
 
   @override
   List<Object> get props => [id, name, description, pictureId, city, rating];

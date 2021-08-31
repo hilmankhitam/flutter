@@ -12,12 +12,33 @@ class _HomePageState extends State<HomePage> {
   late PageController pageController;
   late int bottomNavBarIndex;
 
+  String userName = 'Gol D Roger';
+
+  @override
+  void dispose() {
+    NotificationHelper.onNotifications.close();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    NotificationHelper.init(initScheduled: true);
+    listenNotifications();
 
     bottomNavBarIndex = 0;
     pageController = PageController(initialPage: bottomNavBarIndex);
+  }
+
+  void listenNotifications() {
+    NotificationHelper.onNotifications.stream.listen(onClickNotifications);
+  }
+
+  void onClickNotifications(String? payload) {
+    context
+        .read<PageBloc>()
+        .add(GoToRestaurantDetailPage(payload!, 'Gol D Roger'));
+    
   }
 
   @override
@@ -30,11 +51,14 @@ class _HomePageState extends State<HomePage> {
         PageView(
           controller: pageController,
           onPageChanged: (index) {
-            bottomNavBarIndex = index;
+            setState(() {
+              bottomNavBarIndex = index;
+            });
           },
-          children: const <Widget>[
-            RestaurantPage(),
-            SettingPage(),
+          children: <Widget>[
+            RestaurantPage(userName),
+            FavoritePage(userName),
+            SettingPage(userName),
           ],
         ),
         buttomNavBar(),
@@ -73,9 +97,13 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.home_filled),
             ),
             BottomNavigationBarItem(
+              label: 'Favorites',
+              icon: Icon(Icons.favorite),
+            ),
+            BottomNavigationBarItem(
                 label: 'Settings',
                 icon: Icon(
-                  Icons.settings_accessibility,
+                  Icons.settings,
                 )),
           ],
         ),

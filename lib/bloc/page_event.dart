@@ -15,13 +15,13 @@ class GoToHomePage extends PageEvent {
 }
 
 class GoToRestaurantDetailPage extends PageEvent {
-  final Restaurant restaurant;
+  final String id;
   final String userName;
 
-  const GoToRestaurantDetailPage(this.restaurant,this.userName);
+  const GoToRestaurantDetailPage(this.id,this.userName);
   
   @override
-  List<Object> get props => [restaurant];
+  List<Object> get props => [id, userName];
 }
 
 class GoToSearchPage extends PageEvent {

@@ -20,13 +20,13 @@ class OnHomePage extends PageState {
 }
 
 class OnRestaurantDetailPage extends PageState {
-  final Restaurant restaurant;
+  final String id;
   final String userName;
 
-  const OnRestaurantDetailPage(this.restaurant,this.userName);
+  const OnRestaurantDetailPage(this.id,this.userName);
   
   @override
-  List<Object> get props => [restaurant];
+  List<Object> get props => [id, userName];
 }
 
 class OnSearchPage extends PageState {

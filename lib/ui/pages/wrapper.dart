@@ -9,7 +9,7 @@ class Wrapper extends StatelessWidget {
       builder: (_, pageState) => (pageState is OnHomePage)
           ? const HomePage()
           : (pageState is OnRestaurantDetailPage)
-              ? RestaurantDetailPage(pageState.restaurant, pageState.userName)
+              ? RestaurantDetailPage(pageState.id, pageState.userName)
               : (pageState is OnSearchPage)
                   ? SearchPage(pageState.userName)
                   : const SplashScreen(),

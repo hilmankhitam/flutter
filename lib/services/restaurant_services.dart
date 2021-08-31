@@ -1,12 +1,12 @@
 part of 'services.dart';
 
 class RestaurantServices {
-  static Future<RestaurantResult> getRestaurants({http.Client? client}) async {
+  static Future<RestaurantResult> getRestaurants(http.Client client) async {
     String url = baseURL + "list";
 
-    client ??= http.Client();
+    client = http.Client();
 
-    final response = await http.get(Uri.parse(url));
+    final response = await client.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       return RestaurantResult.fromJson(data);
@@ -60,13 +60,6 @@ class RestaurantServices {
       throw ResultError.fromJson(data);
     }
   }
-}
-
-class SearchRepository {
-  RestaurantServices restaurantServices = RestaurantServices();
-
-  Future<List<Restaurant>> search(String search) =>
-      restaurantServices.search(search);
 }
 
 

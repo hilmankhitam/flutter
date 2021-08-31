@@ -1,14 +1,14 @@
 part of 'pages.dart';
 
 class RestaurantPage extends StatefulWidget {
-  const RestaurantPage({Key? key}) : super(key: key);
+  const RestaurantPage(this.userName,{Key? key}) : super(key: key);
+  final String userName;
 
   @override
   _RestaurantPageState createState() => _RestaurantPageState();
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
-  String nameUser = 'Gol D Roger';
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                   .map((e) => RestaurantList(e, onTap: () {
                         context
                             .read<PageBloc>()
-                            .add(GoToRestaurantDetailPage(e, nameUser));
+                            .add(GoToRestaurantDetailPage(e.id, widget.userName));
                       }))
                   .toList());
         } else {
@@ -101,7 +101,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                         restaurants[index],
                         onTap: () {
                           context.read<PageBloc>().add(GoToRestaurantDetailPage(
-                              restaurants[index], nameUser));
+                              restaurants[index].id, widget.userName));
                         },
                       ),
                     ));
@@ -144,7 +144,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
             const SizedBox(width: 10),
             GestureDetector(
                 onTap: () {
-                  context.read<PageBloc>().add(GoToSearchPage(nameUser));
+                  context.read<PageBloc>().add(GoToSearchPage(widget.userName));
                 },
                 child: const Icon(Icons.search, color: mainColor)),
           ]),
@@ -192,7 +192,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                           50 -
                           18 -
                           2 * 14,
-                      child: Text(nameUser,
+                      child: Text(widget.userName,
                           maxLines: 2,
                           overflow: TextOverflow.clip,
                           style: greyTextFont.copyWith(

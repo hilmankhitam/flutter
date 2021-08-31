@@ -1,11 +1,63 @@
 part of 'pages.dart';
 
-class SettingPage extends StatelessWidget {
-  const SettingPage({Key? key}) : super(key: key);
+class SettingPage extends StatefulWidget {
+  const SettingPage(this.userName, {Key? key}) : super(key: key);
+  final String userName;
+
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  late bool _isScheduled = false;
+  @override
+  void initState() {
+    super.initState();
+
+    getReminder();
+  }
+
+  Future<void> getReminder() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() => _isScheduled = prefs.getBool('showReminder') ?? false);
+  }
+
+  Future<bool> setReminder(bool value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.setBool('showReminder', value);
+  }
+
+  Future<bool?> scheduledRestaurant(bool value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (value) {
+      debugPrint('Notification has been Scheduled');
+      NotificationHelper.showScheduleNotification();
+      setReminder(value);
+      Flushbar(
+              duration: const Duration(milliseconds: 3000),
+              flushbarPosition: FlushbarPosition.TOP,
+              backgroundColor: accentColor1,
+              message: "Notification has been Scheduled")
+          .show(context);
+      return prefs.getBool('showReminder');
+    } else {
+      debugPrint('notification has been canceled');
+      NotificationHelper.cancel();
+      setReminder(value);
+      Flushbar(
+              duration: const Duration(milliseconds: 3000),
+              flushbarPosition: FlushbarPosition.TOP,
+              backgroundColor: accentColor1,
+              message: "Notification has been Canceled")
+          .show(context);
+      return prefs.getBool('showReminder');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    String nameUser = 'Gol D Roger';
     return ListView(children: [
       SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -26,11 +78,26 @@ class SettingPage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              child: Text(nameUser,
+              child: Text(widget.userName,
                   maxLines: 1,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: blackTextFont.copyWith(fontSize: 18)),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Material(
+              child: ListTile(
+                  title: const Text('Scheduling Notification'),
+                  trailing: Switch(
+                      value: _isScheduled,
+                      onChanged: (value) async {
+                        scheduledRestaurant(value);
+                        setState(() {
+                          _isScheduled = value;
+                        });
+                      })),
             ),
             const SizedBox(
               height: 10,

@@ -46,7 +46,7 @@ class RestaurantCard extends StatelessWidget {
                             size: 20,
                           ),
                           const SizedBox(width: 5),
-                          Text(restaurant.city, style: greyTextFont)
+                          Text(restaurant.city, style: greyTextFont),
                         ],
                       ),
                       Row(
@@ -57,8 +57,10 @@ class RestaurantCard extends StatelessWidget {
                             size: 20,
                           ),
                           const SizedBox(width: 2),
-                          Text(restaurant.rating.toString(),
-                              style: greyTextFont)
+                          Text(
+                            restaurant.rating.toString(),
+                            style: greyTextFont,
+                          ),
                         ],
                       ),
                     ],
@@ -76,7 +78,8 @@ class RestaurantCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                    image: NetworkImage(imageBaseURL + 'medium/' + restaurant.pictureId),
+                    image: NetworkImage(
+                        imageBaseURL + 'medium/' + restaurant.pictureId),
                     fit: BoxFit.cover),
               ),
             ),

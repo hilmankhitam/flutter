@@ -31,7 +31,8 @@ class RestaurantList extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                      image: NetworkImage(imageBaseURL + 'small/' + restaurant.pictureId),
+                      image: NetworkImage(
+                          imageBaseURL + 'small/' + restaurant.pictureId),
                       fit: BoxFit.cover),
                 ),
               ),
@@ -68,8 +69,13 @@ class RestaurantList extends StatelessWidget {
                               color: accentColor3,
                               size: 20,
                             ),
-                            const SizedBox(width: 5),
-                            Text(restaurant.city, style: greyTextFont)
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              restaurant.city,
+                              style: greyTextFont,
+                            ),
                           ],
                         ),
                         Row(
@@ -80,15 +86,17 @@ class RestaurantList extends StatelessWidget {
                               size: 20,
                             ),
                             const SizedBox(width: 2),
-                            Text(restaurant.rating.toString(),
-                                style: greyTextFont)
+                            Text(
+                              restaurant.rating.toString(),
+                              style: greyTextFont,
+                            )
                           ],
                         ),
                       ],
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

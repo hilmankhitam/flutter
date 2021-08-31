@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:submission_fundamental_1/services/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:submission_fundamental_1/repository/repository.dart';
 import 'package:submission_fundamental_1/shared/shared.dart';
 
 import 'bloc/blocs.dart';
 import 'ui/pages/pages.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -24,6 +28,7 @@ class MyApp extends StatelessWidget {
           create: (_) => SearchBloc(searchRepository: SearchRepository()),
         ),
         BlocProvider(create: (_) => RestaurantBloc()..add(FetchRestaurants())),
+        BlocProvider(create: (_) => FavoriteBloc(favoriteRepository: FavoriteRepository())..add(StartFavorite())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

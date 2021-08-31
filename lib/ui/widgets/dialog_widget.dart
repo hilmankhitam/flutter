@@ -46,25 +46,26 @@ class _ShowDialogState extends State<ShowDialog> {
             height: 50,
             width: 200,
             child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  elevation: 0,
-                  primary: accentColor1,
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                onPressed: () {
-                  if (reviewController.text != '') {
-                    RestaurantServices.addReview(
-                        widget.id, widget.name, reviewController.text);
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text(
-                  "Add Review",
-                  style: whiteTextFont.copyWith(
-                      fontSize: 16, fontWeight: FontWeight.bold),
-                )),
+                elevation: 0,
+                primary: accentColor1,
+              ),
+              onPressed: () {
+                if (reviewController.text != '') {
+                  RestaurantServices.addReview(
+                      widget.id, widget.name, reviewController.text);
+                  Navigator.pop(context);
+                }
+              },
+              child: Text(
+                "Add Review",
+                style: whiteTextFont.copyWith(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
         ]),
       ),

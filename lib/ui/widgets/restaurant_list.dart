@@ -49,7 +49,6 @@ class RestaurantList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(restaurant.name,
-                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: whiteTextFont.copyWith(fontSize: 16)),
                     Text(restaurant.description,

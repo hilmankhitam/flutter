@@ -1,8 +1,8 @@
 part of 'pages.dart';
 
 class HomePage extends StatefulWidget {
-  static const routeName = '/home_page';
-  const HomePage({Key? key}) : super(key: key);
+  final int bottomNavBarIndex;
+  const HomePage({Key? key, this.bottomNavBarIndex = 0}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     
 
-    bottomNavBarIndex = 0;
+    bottomNavBarIndex = widget.bottomNavBarIndex;
     pageController = PageController(initialPage: bottomNavBarIndex);
   }
 

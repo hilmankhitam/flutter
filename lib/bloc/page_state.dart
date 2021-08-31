@@ -15,8 +15,12 @@ class OnSplashPage extends PageState {
 }
 
 class OnHomePage extends PageState {
+  final int bottomNavBarIndex;
+
+  const OnHomePage({this.bottomNavBarIndex = 0});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [bottomNavBarIndex];
 }
 
 class OnRestaurantDetailPage extends PageState {

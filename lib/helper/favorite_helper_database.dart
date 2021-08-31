@@ -24,8 +24,9 @@ class FavoriteDatabaseHelper {
   }
 
   void initDB(Database database, int version) async {
-    await database.execute("CREATE TABLE $tblfavorite ("
-        "id TEXT PRIMARY KEY, "
-        ")");
+    await database.execute('''CREATE TABLE $tblfavorite (
+           id TEXT PRIMARY KEY
+         )     
+      ''');
   }
 }

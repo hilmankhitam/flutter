@@ -7,7 +7,7 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PageBloc, PageState>(
       builder: (_, pageState) => (pageState is OnHomePage)
-          ? const HomePage()
+          ? HomePage(bottomNavBarIndex: pageState.bottomNavBarIndex)
           : (pageState is OnRestaurantDetailPage)
               ? RestaurantDetailPage(pageState.id, pageState.userName)
               : (pageState is OnSearchPage)

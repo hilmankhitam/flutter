@@ -16,8 +16,9 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   Stream<FavoriteState> mapEventToState(
     FavoriteEvent event,
   ) async* {
-    yield FavoriteLoading();
+    
     if (event is StartFavorite) {
+      yield FavoriteLoading();
       try {
         List<String> id = await favoriteRepository.getFavorite();
         yield FavoriteLoaded(id: id);
@@ -26,7 +27,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       await favoriteRepository.addFavorite(event.id);
       yield FavoriteLoaded(id: await favoriteRepository.getFavorite());
     } else if (event is RemoveFavoriteRestaurant) {
-      yield FavoriteLoading();
       try {
         await favoriteRepository.deleteById(event.id);
         yield FavoriteLoaded(id: await favoriteRepository.getFavorite());

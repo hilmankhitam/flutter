@@ -32,7 +32,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        context.read<PageBloc>().add(GoToHomePage());
+        context.read<PageBloc>().add(const GoToHomePage());
         return false;
       },
       child: Scaffold(
@@ -99,7 +99,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
             child: GestureDetector(
               onTap: () {
-                context.read<PageBloc>().add(GoToHomePage());
+                context.read<PageBloc>().add(const GoToHomePage());
               },
               child: const Icon(Icons.arrow_back, color: accentColor1),
             ),

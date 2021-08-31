@@ -77,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               primary: accentColor3,
                             ),
                             onPressed: () {
-                              context.read<PageBloc>().add(GoToHomePage());
+                              context.read<PageBloc>().add(const GoToHomePage());
                             },
                             child: Text(
                               "Let's Order",

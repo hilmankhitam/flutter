@@ -53,8 +53,14 @@ class FavoriteList extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(restaurantDetailResult.restaurantDetail.name,
-                          style: whiteTextFont.copyWith(fontSize: 16)),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width -
+                            2 * defaultMargin - 20 - 25,
+                        child: Text(
+                            restaurantDetailResult.restaurantDetail.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: whiteTextFont.copyWith(fontSize: 16)),
+                      ),
                       GestureDetector(
                         onTap: () {
                           onTapDelete();

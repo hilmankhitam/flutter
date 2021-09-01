@@ -1,7 +1,34 @@
 part of 'pages.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  String userName = 'Gol D Roger';
+  @override
+  void initState() {
+    super.initState();
+    listenNotifications();
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
+  }
+
+  void listenNotifications() {
+    selectNotificationSubject.stream.listen(onClickNotifications);
+  }
+
+  void onClickNotifications(String payload) {
+    var data = Restaurant.fromJson(json.decode(payload));
+    context.read<PageBloc>().add(GoToRestaurantDetailPage(data, userName));
+  }
 
   @override
   Widget build(BuildContext context) {

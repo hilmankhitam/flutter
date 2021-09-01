@@ -1,7 +1,6 @@
 part of 'pages.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
-  static const routeName = '/restaurant_detail';
   final Restaurant restaurant;
   final String userName;
   const RestaurantDetailPage(this.restaurant, this.userName, {Key? key})

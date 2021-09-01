@@ -12,7 +12,7 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc({required this.searchRepository}) : super(SearchStateEmpty());
 
-  final SearchRepository searchRepository;
+  final RestaurantRepository searchRepository;
 
   @override
   Stream<Transition<SearchEvent, SearchState>> transformEvents(

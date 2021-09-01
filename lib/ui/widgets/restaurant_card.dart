@@ -87,51 +87,55 @@ class RestaurantCard extends StatelessWidget {
                 ),
                 BlocBuilder<FavoriteBloc, FavoriteState>(
                   builder: (_, state) {
-                    if(state is FavoriteLoaded) {
-                      List<String> id = state.id;
+                    if (state is FavoriteLoaded) {
+                      List<Restaurant> restaurants = state.restaurant;
                       return Positioned(
-                      right: 10,
-                      bottom: 10,
-                      child: Container(
-                        width: 35,
-                        height: 35,
-                        padding: const EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: mainColor,
+                        right: 10,
+                        bottom: 10,
+                        child: Container(
+                          width: 35,
+                          height: 35,
+                          padding: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: mainColor,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              if (restaurants.contains(restaurant)) {
+                                context.read<FavoriteBloc>().add(
+                                    RemoveFavoriteRestaurant(restaurant.id));
+                                Flushbar(
+                                        duration:
+                                            const Duration(milliseconds: 1500),
+                                        flushbarPosition: FlushbarPosition.TOP,
+                                        backgroundColor: accentColor1,
+                                        message:
+                                            "${restaurant.name} has been removed from Favorites")
+                                    .show(context);
+                              } else {
+                                context
+                                    .read<FavoriteBloc>()
+                                    .add(AddFavoriteRestaurant(restaurant));
+                                Flushbar(
+                                        duration:
+                                            const Duration(milliseconds: 1500),
+                                        flushbarPosition: FlushbarPosition.TOP,
+                                        backgroundColor: accentColor1,
+                                        message:
+                                            "${restaurant.name} has been added to Favorites")
+                                    .show(context);
+                              }
+                            },
+                            child: Icon(
+                                restaurants.contains(restaurant)
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: accentColor1),
+                          ),
                         ),
-                        child: GestureDetector(
-                          onTap: () {
-                            if (id.contains(restaurant.id)) {
-                    context
-                        .read<FavoriteBloc>()
-                        .add(RemoveFavoriteRestaurant(restaurant.id));
-                    Flushbar(
-                            duration: const Duration(milliseconds: 1500),
-                            flushbarPosition: FlushbarPosition.TOP,
-                            backgroundColor: accentColor1,
-                            message:
-                                "${restaurant.name} has been removed from Favorites")
-                        .show(context);
-                  } else {
-                    context
-                        .read<FavoriteBloc>()
-                        .add(AddFavoriteRestaurant(restaurant.id));
-                    Flushbar(
-                            duration: const Duration(milliseconds: 1500),
-                            flushbarPosition: FlushbarPosition.TOP,
-                            backgroundColor: accentColor1,
-                            message:
-                                "${restaurant.name} has been added to Favorites")
-                        .show(context);
-                  }
-                          },
-                          child:
-                               Icon( id.contains(restaurant.id) ?  Icons.favorite : Icons.favorite_border, color: accentColor1),
-                        ),
-                      ),
-                    );
-                    }else{
+                      );
+                    } else {
                       return const SizedBox();
                     }
                   },

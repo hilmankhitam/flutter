@@ -1,9 +1,10 @@
 part of 'pages.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
-  final String id;
+  static const routeName = '/restaurant_detail';
+  final Restaurant restaurant;
   final String userName;
-  const RestaurantDetailPage(this.id, this.userName, {Key? key})
+  const RestaurantDetailPage(this.restaurant, this.userName, {Key? key})
       : super(key: key);
 
   @override
@@ -16,7 +17,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   @override
   initState() {
     super.initState();
-    _future = RestaurantServices.getDetails(widget.id);
+    _future = RestaurantServices.getDetails(widget.restaurant.id);
   }
 
   @override
@@ -72,7 +73,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                         }),
                   ],
                 ),
-                bottomButton(context, widget.id, widget.userName),
+                bottomButton(context, widget.restaurant.id, widget.userName),
               ],
             ),
           ),
@@ -103,7 +104,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                 BlocBuilder<FavoriteBloc, FavoriteState>(
                   builder: (_, state) {
                     if (state is FavoriteLoaded) {
-                      List<String> ids = state.id;
+                      List<Restaurant> restaurants = state.restaurant;
                       return SizedBox(
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2 - 80,
@@ -116,7 +117,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                               primary: mainColor,
                             ),
                             onPressed: () {
-                              if (ids.contains(id)) {
+                              if (restaurants.contains(widget.restaurant)) {
                                 context
                                     .read<FavoriteBloc>()
                                     .add(RemoveFavoriteRestaurant(id));
@@ -129,9 +130,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                             "Has been removed from Favorites")
                                     .show(context);
                               } else {
-                                context
-                                    .read<FavoriteBloc>()
-                                    .add(AddFavoriteRestaurant(id));
+                                context.read<FavoriteBloc>().add(
+                                    AddFavoriteRestaurant(widget.restaurant));
                                 Flushbar(
                                         duration:
                                             const Duration(milliseconds: 1500),
@@ -142,7 +142,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                               }
                             },
                             child: Icon(
-                              ids.contains(id)
+                              restaurants.contains(widget.restaurant)
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                               color: accentColor1,
@@ -237,7 +237,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
     return BlocBuilder<FavoriteBloc, FavoriteState>(
       builder: (_, state) {
         if (state is FavoriteLoaded) {
-          List<String> id = state.id;
+          List<Restaurant> restaurants = state.restaurant;
           return Container(
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
@@ -247,7 +247,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  if (id.contains(restaurant.id)) {
+                  if (restaurants.contains(widget.restaurant)) {
                     context
                         .read<FavoriteBloc>()
                         .add(RemoveFavoriteRestaurant(restaurant.id));
@@ -261,7 +261,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                   } else {
                     context
                         .read<FavoriteBloc>()
-                        .add(AddFavoriteRestaurant(restaurant.id));
+                        .add(AddFavoriteRestaurant(widget.restaurant));
                     Flushbar(
                             duration: const Duration(milliseconds: 1500),
                             flushbarPosition: FlushbarPosition.TOP,
@@ -273,7 +273,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                 });
               },
               child: Icon(
-                  id.contains(restaurant.id)
+                  restaurants.contains(widget.restaurant)
                       ? Icons.favorite
                       : Icons.favorite_border,
                   color: accentColor1),

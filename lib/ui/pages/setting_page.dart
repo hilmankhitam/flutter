@@ -9,7 +9,7 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  late bool _isScheduled = false;
+  bool _isScheduled = false;
   @override
   void initState() {
     super.initState();
@@ -21,39 +21,6 @@ class _SettingPageState extends State<SettingPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() => _isScheduled = prefs.getBool('showReminder') ?? false);
-  }
-
-  Future<bool> setReminder(bool value) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    return prefs.setBool('showReminder', value);
-  }
-
-  Future<bool?> scheduledRestaurant(bool value) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (value) {
-      debugPrint('Notification has been Scheduled');
-      NotificationHelper.showScheduleNotification();
-      setReminder(value);
-      Flushbar(
-              duration: const Duration(milliseconds: 3000),
-              flushbarPosition: FlushbarPosition.TOP,
-              backgroundColor: accentColor1,
-              message: "Notification has been Scheduled")
-          .show(context);
-      return prefs.getBool('showReminder');
-    } else {
-      debugPrint('notification has been canceled');
-      NotificationHelper.cancel();
-      setReminder(value);
-      Flushbar(
-              duration: const Duration(milliseconds: 3000),
-              flushbarPosition: FlushbarPosition.TOP,
-              backgroundColor: accentColor1,
-              message: "Notification has been Canceled")
-          .show(context);
-      return prefs.getBool('showReminder');
-    }
   }
 
   @override
@@ -93,16 +60,56 @@ class _SettingPageState extends State<SettingPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Scheduling Notification', style: blackTextFont),
-                  CupertinoSwitch(
-                    activeColor: accentColor1,
-                    value: _isScheduled,
-                    onChanged: (value) async {
-                      scheduledRestaurant(value);
-                      setState(() {
-                        _isScheduled = value;
-                      });
-                    },
-                  ),
+                  Consumer<SchedulingProvider>(
+                      builder: (context, scheduled, _) {
+                    return CupertinoSwitch(
+                      activeColor: accentColor1,
+                      value: _isScheduled,
+                      onChanged: (value) async {
+                        if (defaultTargetPlatform != TargetPlatform.iOS) {
+                          if (value) {
+                            Flushbar(
+                                    duration:
+                                        const Duration(milliseconds: 3000),
+                                    flushbarPosition: FlushbarPosition.TOP,
+                                    backgroundColor: accentColor1,
+                                    message: "Notification has been Activated")
+                                .show(context);
+                          } else {
+                            Flushbar(
+                                    duration:
+                                        const Duration(milliseconds: 3000),
+                                    flushbarPosition: FlushbarPosition.TOP,
+                                    backgroundColor: accentColor1,
+                                    message: "Notification has been Canceled")
+                                .show(context);
+                          }
+                          scheduled.scheduledNotification(value);
+                          setState(() => _isScheduled = value);
+                        } else {
+                          showCupertinoDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (context) {
+                              return CupertinoAlertDialog(
+                                title: const Text('Coming Soon!'),
+                                content: const Text(
+                                    'This feature will be coming soon!'),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: const Text('Ok'),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      },
+                    );
+                  }),
                 ],
               ),
             ),

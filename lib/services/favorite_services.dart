@@ -3,9 +3,9 @@ part of 'services.dart';
 class FavoriteServices {
   final FavoriteDatabaseHelper dbProvider = FavoriteDatabaseHelper.instance;
 
-  Future<void> addFavorite(String id) async {
+  Future<void> addFavorite(Restaurant restaurant) async {
     final db = await dbProvider.database;
-    await db.insert(tblfavorite, {"id": id});
+    await db.insert(tblfavorite, restaurant.toJson());
   }
 
   String fromJson(Map<String, dynamic> json) {
@@ -13,16 +13,16 @@ class FavoriteServices {
     return id;
   }
 
-  Future<List<String>> getFavorite() async {
+  Future<List<Restaurant>> getFavorite() async {
     final db = await dbProvider.database;
 
     List<Map<String, dynamic>> result;
 
     result = await db.query(tblfavorite);
 
-    List<String> id =
-        result.isNotEmpty ? result.map((item) => fromJson(item)).toList() : [];
-    return id;
+    List<Restaurant> restaurant =
+        result.isNotEmpty ? result.map((item) => Restaurant.fromJson(item)).toList() : [];
+    return restaurant;
   }
 
   Future<String> deleteFavorite(String id) async {

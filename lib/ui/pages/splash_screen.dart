@@ -1,29 +1,7 @@
 part of 'pages.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
-
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    NotificationHelper.init(initScheduled: true);
-    listenNotifications();
-  }
-
-  void listenNotifications() {
-    NotificationHelper.onNotifications.stream.listen(onClickNotifications);
-  }
-
-  void onClickNotifications(String? payload) {
-    context
-        .read<PageBloc>()
-        .add(GoToRestaurantDetailPage(payload!, 'Gol D Roger'));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +55,9 @@ class _SplashScreenState extends State<SplashScreen> {
                               primary: accentColor3,
                             ),
                             onPressed: () {
-                              context.read<PageBloc>().add(const GoToHomePage());
+                              context
+                                  .read<PageBloc>()
+                                  .add(const GoToHomePage());
                             },
                             child: Text(
                               "Let's Order",

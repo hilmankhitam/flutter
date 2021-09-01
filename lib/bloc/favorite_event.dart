@@ -13,12 +13,12 @@ class StartFavorite extends FavoriteEvent {
 }
 
 class AddFavoriteRestaurant extends FavoriteEvent {
-  final String id;
+  final Restaurant restaurant;
 
-  const AddFavoriteRestaurant(this.id);
+  const AddFavoriteRestaurant(this.restaurant);
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [restaurant];
 }
 
 class RemoveFavoriteRestaurant extends FavoriteEvent {

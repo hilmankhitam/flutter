@@ -10,12 +10,12 @@ abstract class FavoriteState extends Equatable {
 class FavoriteLoading extends FavoriteState {}
 
 class FavoriteLoaded extends FavoriteState {
-  final List<String> id;
+  final List<Restaurant> restaurant;
 
-  const FavoriteLoaded({required this.id});
+  const FavoriteLoaded({required this.restaurant});
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [restaurant];
 }
 
 class FavoriteError extends FavoriteState {}

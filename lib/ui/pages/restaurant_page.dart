@@ -63,7 +63,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                   .map((e) => RestaurantList(e, onTap: () {
                         context
                             .read<PageBloc>()
-                            .add(GoToRestaurantDetailPage(e.id, widget.userName));
+                            .add(GoToRestaurantDetailPage(e, widget.userName));
                       }))
                   .toList());
         } else {
@@ -101,7 +101,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                         restaurants[index],
                         onTap: () {
                           context.read<PageBloc>().add(GoToRestaurantDetailPage(
-                              restaurants[index].id, widget.userName));
+                              restaurants[index], widget.userName));
                         },
                       ),
                     ));

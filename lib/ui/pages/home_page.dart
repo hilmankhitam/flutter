@@ -14,17 +14,30 @@ class _HomePageState extends State<HomePage> {
 
   String userName = 'Gol D Roger';
 
-
   @override
   void initState() {
     super.initState();
-    
+    listenNotifications();
 
     bottomNavBarIndex = widget.bottomNavBarIndex;
     pageController = PageController(initialPage: bottomNavBarIndex);
   }
 
+  void listenNotifications() {
+    selectNotificationSubject.stream.listen(onClickNotifications);
+  }
+
+  void onClickNotifications(String payload) {
+    var data = Restaurant.fromJson(json.decode(payload));
+    context.read<PageBloc>().add(GoToRestaurantDetailPage(data, userName));
+  }
+
   
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

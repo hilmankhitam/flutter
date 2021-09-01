@@ -5,8 +5,8 @@ class FavoriteRepository {
 
   Future getFavorite() => favoriteServices.getFavorite();
 
-  Future addFavorite(String id) =>
-      favoriteServices.addFavorite(id);
+  Future addFavorite(Restaurant restaurant) =>
+      favoriteServices.addFavorite(restaurant);
 
   Future deleteById(String id) => favoriteServices.deleteFavorite(id);
 }

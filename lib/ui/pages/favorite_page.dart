@@ -9,7 +9,6 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -37,9 +36,9 @@ class _FavoritePageState extends State<FavoritePage> {
             child: SpinKitFadingCircle(size: 50, color: accentColor1));
       }
       if (favoriteState is FavoriteLoaded) {
-        if (favoriteState.id.isNotEmpty) {
+        if (favoriteState.restaurant.isNotEmpty) {
           return Column(
-              children: favoriteState.id
+              children: favoriteState.restaurant
                   .map((e) => FavoriteList(
                         e,
                         onTap: () {
@@ -49,7 +48,7 @@ class _FavoritePageState extends State<FavoritePage> {
                         onTapDelete: () {
                           context
                               .read<FavoriteBloc>()
-                              .add(RemoveFavoriteRestaurant(e));
+                              .add(RemoveFavoriteRestaurant(e.id));
 
                           Flushbar(
                                   duration: const Duration(milliseconds: 3000),

@@ -1,6 +1,6 @@
 part of 'repository.dart';
 
-class SearchRepository {
+class RestaurantRepository {
   RestaurantServices restaurantServices = RestaurantServices();
 
   Future<List<Restaurant>> search(String search) =>

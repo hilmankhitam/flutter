@@ -16,7 +16,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   @override
   initState() {
     super.initState();
-    _future = RestaurantServices.getDetails(widget.restaurant.id);
+    _future =
+        RestaurantServices.getDetails(widget.restaurant.id, http.Client());
   }
 
   @override
@@ -362,7 +363,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
-            future: RestaurantServices.getDetails(restaurant.id),
+            future: RestaurantServices.getDetails(restaurant.id, http.Client()),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:

@@ -16,10 +16,10 @@ class RestaurantServices {
   }
 
   static Future<RestaurantDetailResult> getDetails(String restaurantID,
-      {http.Client? client}) async {
+      http.Client client) async {
     String url = baseURL + "detail/$restaurantID";
 
-    client ??= http.Client();
+    client = http.Client();
 
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {

@@ -25,8 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
     selectNotificationSubject.stream.listen(onClickNotifications);
   }
 
-  void onClickNotifications(String payload) {
-    var data = Restaurant.fromJson(json.decode(payload));
+  void onClickNotifications(String? payload) {
+    var data = Restaurant.fromJson(json.decode(payload!));
     context.read<PageBloc>().add(GoToRestaurantDetailPage(data, userName));
   }
 

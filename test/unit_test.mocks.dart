@@ -2,7 +2,7 @@
 // in submission_fundamental_1/test/unit_test.dart.
 // Do not manually edit this file.
 
-// ignore_for_file: camel_case_types
+// ignore_for_file: unnecessary_overrides, camel_case_types
 
 import 'dart:async' as _i5;
 import 'dart:convert' as _i6;
@@ -31,10 +31,6 @@ class _FakeStreamedResponse_1 extends _i1.Fake implements _i3.StreamedResponse {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockClient extends _i1.Mock implements _i4.Client {
-  MockClient() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i5.Future<_i2.Response> head(Uri? url, {Map<String, String>? headers}) =>
       (super.noSuchMethod(Invocation.method(#head, [url], {#headers: headers}),
@@ -105,4 +101,6 @@ class MockClient extends _i1.Mock implements _i4.Client {
   @override
   void close() => super.noSuchMethod(Invocation.method(#close, []),
       returnValueForMissingStub: null);
+  @override
+  String toString() => super.toString();
 }

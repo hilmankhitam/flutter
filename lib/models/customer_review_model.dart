@@ -1,19 +1,22 @@
 part of 'models.dart';
 
-class CustomerReview {
-  CustomerReview({
+class CustomerReview extends Equatable {
+  const CustomerReview({
     required this.name,
     required this.review,
     required this.date,
   });
 
-  String name;
-  String review;
-  String date;
+  final String name;
+  final String review;
+  final String date;
 
   factory CustomerReview.fromJson(Map<String, dynamic> json) => CustomerReview(
         name: json["name"],
         review: json["review"],
         date: json["date"],
       );
+
+  @override
+  List<Object?> get props => [name, review, date];
 }

@@ -1,15 +1,15 @@
 part of 'models.dart';
 
-class RestaurantDetailResult {
-  RestaurantDetailResult({
+class RestaurantDetailResult extends Equatable{
+   const RestaurantDetailResult({
     required this.error,
     required this.message,
     required this.restaurantDetail,
   });
 
-  bool error;
-  String message;
-  RestaurantDetail restaurantDetail;
+  final bool error;
+  final String message;
+  final RestaurantDetail restaurantDetail;
 
   factory RestaurantDetailResult.fromJson(Map<String, dynamic> json) =>
       RestaurantDetailResult(
@@ -17,6 +17,15 @@ class RestaurantDetailResult {
         message: json["message"],
         restaurantDetail: RestaurantDetail.fromJson(json["restaurant"]),
       );
+
+  Map<String, dynamic> toJson() => {
+        "error": error,
+        "message": message,
+        "restaurant": restaurantDetail.toJson(),
+    };
+
+  @override
+  List<Object?> get props => [error, message, restaurantDetail];
 }
 
 class RestaurantDetail extends Restaurant {
@@ -46,6 +55,8 @@ class RestaurantDetail extends Restaurant {
           customerReview: List<CustomerReview>.from(
               json['customerReviews'].map((e) => CustomerReview.fromJson(e))),
           menus: Menu.fromJson(json['menus']));
+
+  
 
   @override
   List<Object> get props =>

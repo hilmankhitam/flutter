@@ -4,8 +4,6 @@ class RestaurantServices {
   static Future<RestaurantResult> getRestaurants(http.Client client) async {
     String url = baseURL + "list";
 
-    client = http.Client();
-
     final response = await client.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
@@ -15,13 +13,11 @@ class RestaurantServices {
     }
   }
 
-  static Future<RestaurantDetailResult> getDetails(String restaurantID,
-      http.Client client) async {
+  static Future<RestaurantDetailResult> getDetails(
+      String restaurantID, http.Client client) async {
     String url = baseURL + "detail/$restaurantID";
 
-    client = http.Client();
-
-    final response = await http.get(Uri.parse(url));
+    final response = await client.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       return RestaurantDetailResult.fromJson(data);
@@ -61,5 +57,3 @@ class RestaurantServices {
     }
   }
 }
-
-

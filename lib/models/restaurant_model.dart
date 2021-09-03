@@ -12,13 +12,13 @@ class ResultError {
   }
 }
 
-class RestaurantResult {
+class RestaurantResult extends Equatable {
   final bool error;
   final String message;
   final int count;
   final List<Restaurant> restaurants;
 
-  RestaurantResult(
+  const RestaurantResult(
       {required this.error,
       required this.message,
       required this.count,
@@ -38,6 +38,9 @@ class RestaurantResult {
         "count": count,
         "restaurants": List<dynamic>.from(restaurants.map((x) => x.toJson())),
       };
+
+  @override
+  List<Object> get props => [error, message, count, restaurants];
 }
 
 class Restaurant extends Equatable {
@@ -62,7 +65,7 @@ class Restaurant extends Equatable {
         description: json['description'],
         pictureId: json['pictureId'],
         city: json['city'],
-        rating: (json['rating'] as num).toDouble(),
+        rating: json['rating'].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
